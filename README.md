@@ -11,6 +11,8 @@ AIRTABLE_API_KEY='xyz' npm run dev
 ## Resources
 
 - [Airtable API documentation](https://airtable.com/appeOdEdMRckpgiN0/api/docs#curl/introduction) for my table.
+- [EJS](https://ejs.co/#docs)
+- [11ty](https://www.11ty.dev)
 
 ## TODO
 
