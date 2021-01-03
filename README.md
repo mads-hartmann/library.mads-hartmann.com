@@ -20,3 +20,4 @@ AIRTABLE_API_KEY='xyz' npm run dev
 - [x] Generate an index.html page with the title of all books
 - [ ] Github CI config
 - [ ] Generate a db.sql file with table definition and inserts for each book
+- [ ] Publish to library.mads-hartmann.com (depends on my other project)
