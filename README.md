@@ -4,6 +4,8 @@ Static site rendering all the books in my library. The data is managed as a tabl
 
 ## Development
 
+You can find your Airtable API key on your [account page](https://airtable.com/account).
+
 ```sh
 AIRTABLE_API_KEY='xyz' npm run dev
 ```

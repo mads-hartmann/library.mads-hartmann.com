@@ -1,0 +1,47 @@
+name: Build & deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@master
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+
+      - id: install-aws-cli
+        uses: unfor19/install-aws-cli-action@v1
+        with:
+          version: "2.1.16"
+          verbose: true
+
+      - name: NPM install
+        run: npm ci
+
+      - name: Build site
+        env:
+            AIRTABLE_API_KEY: ${{ secrets.AIRTABLE_API_KEY }}
+        run: npm run build
+
+      - name: Upload to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: aws s3 sync --region us-east-1 _site/ s3://library.mads-hartmann.com/
+
+      - name: Invalidate cache
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # if a region is not specified, the CLI will try to contact the local meta-data service
+          # to determine the region.
+          # cloudfront is global so we don't need to specify a region and we don't have the meta-data
+          # service running as we're not in AWS, so we tell the CLI to not query the meta-data service.
+          AWS_EC2_METADATA_DISABLED: true
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'

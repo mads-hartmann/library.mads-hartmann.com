@@ -4,7 +4,8 @@
   "description": "Links to resources I've read or want to read.",
   "main": "index.js",
   "scripts": {
-    "dev": "eleventy --serve"
+    "dev": "eleventy --serve",
+    "build": "eleventy build"
   },
   "author": "",
   "license": "ISC",
